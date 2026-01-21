@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' ;
+import 'package:worldtime/services/world_time_api.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatefulWidget {
   const Loading({super.key});
@@ -11,99 +10,78 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  // int count = 0;
+  // String? time = "loading";
 
-  // void my_async() async {
-  //   Response response = await get(
-  //     Uri.parse('https://jsonplaceholder.typicode.com/todos/1')
-  //
-  //
-  //   );
-  //   Map data = jsonDecode(response.body);
-  //   print(data['title']);
-  // }
-
+  void world_instance() async {
+    WorldTimeApi worldTimeApi_instace = WorldTimeApi(
+      url: 'Africa/Mogadishu',
+      location: 'Mogadishu',
+      flag: 'jjj.png',
+    );
+    await worldTimeApi_instace.fetchTime();
+// using await it helping to us to get response after getting from the world api instance
 
 
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
 
-  void fetchTime() async {
-    try {
-      final response = await get(
-        Uri.parse('https://worldtimeapi.org/api/timezone/Africa/Mogadishu'),
-      ).timeout(const Duration(seconds: 10));
+      'location': worldTimeApi_instace.location,
+      'flag': worldTimeApi_instace.flag,
+      'time': worldTimeApi_instace.time ?? "loading",
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        print(data);
-      } else {
-        print('Server error: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Network error: $e');
+
+    }
+    );
+  }
+
+    @override
+    void initState() {
+      super.initState();
+      // calling the world instance function
+      world_instance();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      // print("this is the building function");
+      return Scaffold(
+        // padding: EdgeInsetsGeometry.all(30.0),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text("Loading"),
+          backgroundColor: Colors.cyan[600],
+          centerTitle: true,
+          // elevation: 0,
+
+        ),
+        body: Center(
+          child: SpinKitFadingCircle(
+            color: Colors.white,
+            size: 50.0,
+          ),
+        ),
+
+
+      );
     }
   }
 
 
-  @override
-  void initState() {
-    super.initState();
-    fetchTime();
-  }
-  @override
-  Widget build(BuildContext context) {
-    // print("this is the building function");
-    return Scaffold(
-      // backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   title: Text("Loading"),
-      //   backgroundColor: Colors.cyan[600],
-      //   centerTitle: true,
-      //   elevation: 0,
-      //
 
-      //
-      //   ),
-      //   body: Center(
-      //     child: Column(
-      //
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: <Widget>[
-      //         Text("you have clickes ${count} times",
-      //           style: TextStyle(
-      //             color: Colors.black,
-      //             fontWeight: FontWeight.bold,
-      //
-      //           ),
-      //
-      //         )
-      //
-      //       ],
-      //     ),
-      //   ),
-      //
-      //
-      //   floatingActionButton: FloatingActionButton(
-      //     onPressed: (){
-      //       setState(() {
-      //         count+=1;
-      //       });
-      //     },
-      //     child: Icon(Icons.add),
-      //   ),
-      //
-      //
-      //
-      //
-      // );
-    );
-  }
-}
-
-
-
-
-
-
+//
+//
+//   floatingActionButton: FloatingActionButton(
+//     onPressed: (){
+//       setState(() {
+//         count+=1;
+//       });
+//     },
+//     child: Icon(Icons.add),
+//   ),
+//
+//
+//
+//
+// );
 
 
 // init state it's used to trigger the first time that we run the state of our app not the setstate that updates
@@ -114,4 +92,3 @@ class _LoadingState extends State<Loading> {
 //   void initState() {
 // print("this is the initial state that runs each time the whole page loaded");
 //     super.initState();
-//   }

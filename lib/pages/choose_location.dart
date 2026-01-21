@@ -20,7 +20,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         backgroundColor: Colors.blue[600],
         centerTitle: true,
         title: Text("Location"),
-        elevation: 0,
+        // elevation: 0,
       ),
 
 
