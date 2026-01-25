@@ -14,6 +14,8 @@ class WorldTimeApi {
 
    String? time;
 
+   bool ? isDaytime ;
+
   WorldTimeApi(
       {required this.location, required this.url,required this.flag});
 
@@ -45,6 +47,14 @@ class WorldTimeApi {
 
         // creating datetime object  anc converting into the string
         DateTime now = DateTime.parse(datetime);
+
+
+          isDaytime =  now.hour >6  && now.hour <= 20 ? true : false ;
+          print(" thi is daytime result ${isDaytime}");
+
+
+
+
         now = now.add(Duration(hours: int.parse(offset)));
 
 

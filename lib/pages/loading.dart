@@ -27,6 +27,7 @@ class _LoadingState extends State<Loading> {
       'location': worldTimeApi_instace.location,
       'flag': worldTimeApi_instace.flag,
       'time': worldTimeApi_instace.time ?? "loading",
+      'isDaytime' : worldTimeApi_instace.isDaytime
 
 
     }

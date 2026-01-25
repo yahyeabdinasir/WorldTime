@@ -23,6 +23,22 @@ class _ChooseLocationState extends State<ChooseLocation> {
     WorldTimeApi(url: 'Asia/Jakarta', location: 'Jakarta', flag: 'indonesia.png'),
   ];
 
+
+
+   void  world_Time (index) async{
+     WorldTimeApi  instatance_ofthe_index =   locations[index];
+     await instatance_ofthe_index.fetchTime();
+
+
+     Navigator.pop(context , {
+       'location': instatance_ofthe_index.location,
+       'flag': instatance_ofthe_index.flag,
+       'time': instatance_ofthe_index.time ?? "loading",
+       'isDaytime' : instatance_ofthe_index.isDaytime
+     },);
+
+
+  }
   @override
   void initState() {
     super.initState();
@@ -45,7 +61,9 @@ class _ChooseLocationState extends State<ChooseLocation> {
               padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
               child: Card(
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                  return world_Time(index);
+                  },
                   title: Text(locations[index].location),
                   leading: CircleAvatar(
                     backgroundImage: AssetImage('assets/${locations[index].flag}'),
